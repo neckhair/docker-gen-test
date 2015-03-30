@@ -1,0 +1,29 @@
+demo1:
+  image: nginx:latest
+  expose:
+    - "80"
+  volumes:
+    - "index1.html:/usr/share/nginx/html/index.html:ro"
+  environment:
+    VIRTUAL_HOST: demo1.docker
+demo2:
+  image: nginx:latest
+  expose:
+    - "80"
+  volumes:
+    - "index2.html:/usr/share/nginx/html/index.html:ro"
+  environment:
+    VIRTUAL_HOST: demo2.docker
+rack1:
+  build: .
+  expose:
+    - "80"
+  environment:
+    VIRTUAL_HOST: rack1.docker
+  hostname: rack1
+proxy:
+  image: jwilder/nginx-proxy:latest
+  ports:
+    - "80:80"
+  volumes:
+    - "/var/run/docker.sock:/tmp/docker.sock"
